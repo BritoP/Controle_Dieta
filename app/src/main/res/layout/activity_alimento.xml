@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    tools:context=".AlimentoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/nomeAlimento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/editTextNomeAlimento"
+            android:text="@string/alimento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextNomeAlimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nomeAlimento" />
+
+        <TextView
+            android:id="@+id/textViewQuantidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/editTextQuantidade"
+            android:text="@string/quantidade"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNomeAlimento" />
+
+        <EditText
+            android:id="@+id/editTextQuantidade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewQuantidade" />
+
+        <TextView
+            android:id="@+id/textViewCalorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/editTextCalorias"
+            android:text="@string/calorias"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextQuantidade" />
+
+        <EditText
+            android:id="@+id/editTextCalorias"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCalorias" />
+
+        <Button
+            android:id="@+id/buttonSalvar"
+            android:layout_width="121dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="8dp"
+            android:onClick="salvarValores"
+            android:text="@string/salvar"
+            app:layout_constraintEnd_toStartOf="@+id/buttonLimpar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTipoRefeicao" />
+
+        <Button
+            android:id="@+id/buttonLimpar"
+            android:layout_width="121dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="8dp"
+            android:onClick="limparCampos"
+            android:text="@string/limpar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/buttonSalvar"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTipoRefeicao" />
+
+        <CheckBox
+            android:id="@+id/checkBoxCaseira"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/receita_caseira"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextCalorias" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupNutriente"
+            android:layout_width="183dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTipoNutriente">
+
+            <RadioButton
+                android:id="@+id/radioButtonProteina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/proteina" />
+
+            <RadioButton
+                android:id="@+id/radioButtonGordura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gordura" />
+
+            <RadioButton
+                android:id="@+id/radioButtonCarboidrato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/carboidrato" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewTipoRefeicao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/tipo_refeicao"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupNutriente" />
+
+        <Spinner
+            android:id="@+id/spinnerTipoRefeicao"
+            android:layout_width="219dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/tipoRefeicao"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTipoRefeicao" />
+
+        <TextView
+            android:id="@+id/textViewTipoNutriente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:labelFor="@id/radioGroupNutriente"
+            android:text="@string/tipo_nutriente"
+            app:layout_constraintStart_toStartOf="@+id/checkBoxCaseira"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxCaseira" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+

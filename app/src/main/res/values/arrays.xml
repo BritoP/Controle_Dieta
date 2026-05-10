@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipoRefeicao">
+        <item>@string/cafe_da_manha</item>
+        <item>@string/almoco</item>
+        <item>@string/cafe_da_tarde</item>
+        <item>@string/janta</item>
+        <item>@string/outro</item>
+    </string-array>
+
+    <string-array name="alimentos_nome">
+        <item>Frango</item>
+        <item>Arroz</item>
+        <item>Macarrão</item>
+        <item>Carne</item>
+        <item>Feijão</item>
+        <item>Alface</item>
+        <item>Tomate</item>
+        <item>Pão</item>
+        <item>Queijo</item>
+        <item>Presunto</item>
+    </string-array>
+    <integer-array name="alimentos_quantidade">
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>50</item>
+        <item>30</item>
+        <item>100</item>
+        <item>500</item>
+        <item>600</item>
+        <item>400</item>
+        <item>20</item>
+    </integer-array>
+    <integer-array name="alimentos_calorias">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+        <item>600</item>
+        <item>700</item>
+        <item>800</item>
+        <item>900</item>
+        <item>1000</item>
+    </integer-array>
+<integer-array name="alimentos_caseira">
+    <item>1</item>
+    <item>0</item>
+    <item>1</item>
+    <item>0</item>
+    <item>1</item>
+    <item>1</item>
+    <item>0</item>
+    <item>0</item>
+    <item>0</item>
+    <item>1</item>
+</integer-array>
+<integer-array name="alimentos_tipos_refeicao">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+    <item>4</item>
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+    <item>4</item>
+</integer-array>
+<integer-array name="alimentos_tipos_nutrientes">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>0</item>
+</integer-array>
+</resources>
