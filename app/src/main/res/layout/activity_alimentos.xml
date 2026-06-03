@@ -7,6 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".AlimentosActivity">
 
+    <Button
+        android:id="@+id/buttonAdicionar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/adicionar"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSobre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSobre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/sobre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonAdicionar"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/listViewAlimentos"
         android:layout_width="0dp"
@@ -18,8 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/linha_lista_alimentos"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdicionar"
+        tools:listitem="@layout/linha_lista_alimentos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
