@@ -27,10 +27,7 @@ public class AlimentosActivity extends AppCompatActivity {
     private ListView listViewAlimentos;
     private List<Alimento> listaAlimentos;
     private AlimentoAdapter alimentoAdapter;
-
-    // Guarda posição do item selecionado no menu contextual
     private int posicaoSelecionada = -1;
-
     private ActivityResultLauncher<Intent> cadastroLauncher;
 
     @Override
@@ -44,7 +41,6 @@ public class AlimentosActivity extends AppCompatActivity {
         alimentoAdapter = new AlimentoAdapter(this, listaAlimentos);
         listViewAlimentos.setAdapter(alimentoAdapter);
 
-        // Registrar launcher para resultado do cadastro/edição
         cadastroLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -64,7 +60,6 @@ public class AlimentosActivity extends AppCompatActivity {
                             TipoNutriente nutriente = TipoNutriente.values()[tipoNutriente];
 
                             if (posicao >= 0) {
-                                // Modo edição: atualiza item existente
                                 Alimento alimento = listaAlimentos.get(posicao);
                                 alimento.setNome(nome);
                                 alimento.setQuantidade(quantidade);
@@ -73,7 +68,6 @@ public class AlimentosActivity extends AppCompatActivity {
                                 alimento.setTipoNutriente(nutriente);
                                 alimento.setTipoRefeicao(tipoRefeicao);
                             } else {
-                                // Modo inclusão: adiciona novo item
                                 Alimento alimento = new Alimento(nome, quantidade, calorias, caseira, nutriente, tipoRefeicao);
                                 listaAlimentos.add(alimento);
                             }
@@ -84,7 +78,7 @@ public class AlimentosActivity extends AppCompatActivity {
                 }
         );
 
-        // Clique simples: Toast
+        // Clique simples
         listViewAlimentos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -95,9 +89,9 @@ public class AlimentosActivity extends AppCompatActivity {
             }
         });
 
-        // Menu de ação contextual (long press)
-        listViewAlimentos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listViewAlimentos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listViewAlimentos.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 posicaoSelecionada = position;
@@ -119,6 +113,7 @@ public class AlimentosActivity extends AppCompatActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.menuItemEditar) {
+                    if (posicaoSelecionada < 0) return false;
                     Alimento alimento = listaAlimentos.get(posicaoSelecionada);
                     Intent intent = new Intent(AlimentosActivity.this, AlimentoActivity.class);
                     intent.putExtra(AlimentoActivity.EXTRA_NOME, alimento.getNome());
@@ -132,6 +127,7 @@ public class AlimentosActivity extends AppCompatActivity {
                     mode.finish();
                     return true;
                 } else if (id == R.id.menuItemExcluir) {
+                    if (posicaoSelecionada < 0) return false;
                     listaAlimentos.remove(posicaoSelecionada);
                     alimentoAdapter.notifyDataSetChanged();
                     mode.finish();

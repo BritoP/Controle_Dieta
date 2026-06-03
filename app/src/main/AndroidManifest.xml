@@ -15,7 +15,8 @@
 
         <activity
             android:name=".AlimentosActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.ControleDieta.WithActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,11 +26,13 @@
         <activity
             android:name=".AlimentoActivity"
             android:exported="false"
+            android:theme="@style/Theme.ControleDieta.WithActionBar"
             android:parentActivityName=".AlimentosActivity" />
 
         <activity
             android:name=".AutoriaActivity"
             android:exported="false"
+            android:theme="@style/Theme.ControleDieta.WithActionBar"
             android:parentActivityName=".AlimentosActivity" />
 
     </application>

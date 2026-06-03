@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">ControleDieta</string>
-
-    <!-- Formulário de cadastro -->
     <string name="alimento">Alimento: </string>
     <string name="quantidade">Quantidade (em gramas): </string>
     <string name="calorias">Calorias (por 100g): </string>
@@ -27,16 +25,10 @@
     <string name="tipo_nutriente">Tipo de Nutriente: </string>
     <string name="alimento_de_nome">Alimento de Nome \"</string>
     <string name="foi_clicado">\" foi clicado!</string>
-
-    <!-- Listagem -->
     <string name="adicionar">Adicionar</string>
     <string name="sobre">Sobre</string>
-
-    <!-- Menu contextual -->
     <string name="editar">Editar</string>
     <string name="excluir">Excluir</string>
-
-    <!-- Autoria -->
     <string name="logo_utfpr">Logo da UTFPR</string>
     <string name="nome_utfpr">Universidade Tecnológica Federal do Paraná</string>
     <string name="label_nome_aluno">Aluno</string>
