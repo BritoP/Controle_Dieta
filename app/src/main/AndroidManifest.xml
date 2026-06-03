@@ -12,21 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.ControleDieta"
         tools:targetApi="31">
-        <activity
-            android:name=".AutoriaActivity"
-            android:exported="false" />
+
         <activity
             android:name=".AlimentosActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AlimentoActivity"
-            android:exported="false"></activity>
+            android:exported="false"
+            android:parentActivityName=".AlimentosActivity" />
+
+        <activity
+            android:name=".AutoriaActivity"
+            android:exported="false"
+            android:parentActivityName=".AlimentosActivity" />
+
     </application>
 
 </manifest>

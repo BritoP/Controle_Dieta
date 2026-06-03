@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ControleDieta</string>
-    <!--  Formulário de cadastro  -->
+
+    <!-- Formulário de cadastro -->
     <string name="alimento">Alimento: </string>
     <string name="quantidade">Quantidade (em gramas): </string>
     <string name="calorias">Calorias (por 100g): </string>
@@ -26,21 +27,25 @@
     <string name="tipo_nutriente">Tipo de Nutriente: </string>
     <string name="alimento_de_nome">Alimento de Nome \"</string>
     <string name="foi_clicado">\" foi clicado!</string>
+
+    <!-- Listagem -->
     <string name="adicionar">Adicionar</string>
     <string name="sobre">Sobre</string>
+
+    <!-- Menu contextual -->
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+
+    <!-- Autoria -->
     <string name="logo_utfpr">Logo da UTFPR</string>
     <string name="nome_utfpr">Universidade Tecnológica Federal do Paraná</string>
     <string name="label_nome_aluno">Aluno</string>
     <string name="nome_aluno">Pedro Otavio de Brito</string>
-    <string name="label_curso">Curso</string>
+    <string name="rotulo_curso">Curso</string>
     <string name="curso_aluno">Engenharia de Computação — UTFPR Cornélio Procópio</string>
     <string name="label_email">E-mail</string>
     <string name="email_aluno">britop.dev@gmail.com</string>
     <string name="label_descricao_app">Sobre o aplicativo</string>
     <string name="descricao_app">O Controle Dieta é um aplicativo para registro e acompanhamento de alimentos consumidos ao longo do dia. Permite cadastrar alimentos com informações nutricionais como calorias, tipo de nutriente e tipo de refeição, facilitando o controle da alimentação diária.</string>
-    <string name="nomeAluno">Pedro Otavio de Brito</string>
-    <string name="autoriaCurso">Engenharia de Computação\n</string>
-    <string name="autoriaEmail">britop@alunos.utfpr.edu.br\n</string>
-    <string name="autoriaDescricao">Este é um aplicativo que tem como objetivo auxiliar na dieta, possibilitando que o usuário cadastre suas refeições e controle as calorias ingeridas ao longo dos dias de dieta</string>
-    <string name="autoriaFaculdade">Universidade Tecnológica Federal do Paraná</string>
+
 </resources>

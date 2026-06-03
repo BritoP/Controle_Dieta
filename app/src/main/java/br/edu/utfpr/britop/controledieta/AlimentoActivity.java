@@ -3,7 +3,9 @@ package br.edu.utfpr.britop.controledieta;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -14,23 +16,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AlimentoActivity extends AppCompatActivity {
 
-    // Constantes para os extras do Intent
     public static final String EXTRA_NOME           = "nome";
     public static final String EXTRA_QUANTIDADE     = "quantidade";
     public static final String EXTRA_CALORIAS       = "calorias";
     public static final String EXTRA_CASEIRA        = "caseira";
     public static final String EXTRA_TIPO_NUTRIENTE = "tipoNutriente";
     public static final String EXTRA_TIPO_REFEICAO  = "tipoRefeicao";
+    public static final String EXTRA_POSICAO        = "posicao";
 
     private EditText editTextNomeAlimento, editTextQuantidade, editTextCalorias;
     private CheckBox checkBoxCaseira;
     private RadioGroup radioGroupNutriente;
     private Spinner spinnerTipoRefeicao;
 
+    // Posição do item sendo editado (-1 = novo cadastro)
+    private int posicaoEdicao = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alimento);
+
+        // Habilitar botão Up na Action Bar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         editTextNomeAlimento = findViewById(R.id.editTextNomeAlimento);
         editTextQuantidade   = findViewById(R.id.editTextQuantidade);
@@ -38,9 +48,60 @@ public class AlimentoActivity extends AppCompatActivity {
         checkBoxCaseira      = findViewById(R.id.checkBoxCaseira);
         radioGroupNutriente  = findViewById(R.id.radioGroupNutriente);
         spinnerTipoRefeicao  = findViewById(R.id.spinnerTipoRefeicao);
+
+        // Verificar se veio em modo edição
+        Intent intent = getIntent();
+        posicaoEdicao = intent.getIntExtra(EXTRA_POSICAO, -1);
+
+        if (posicaoEdicao >= 0) {
+            // Preencher campos com dados do item a editar
+            editTextNomeAlimento.setText(intent.getStringExtra(EXTRA_NOME));
+            editTextQuantidade.setText(String.valueOf(intent.getIntExtra(EXTRA_QUANTIDADE, 0)));
+            editTextCalorias.setText(String.valueOf(intent.getIntExtra(EXTRA_CALORIAS, 0)));
+            checkBoxCaseira.setChecked(intent.getBooleanExtra(EXTRA_CASEIRA, false));
+            spinnerTipoRefeicao.setSelection(intent.getIntExtra(EXTRA_TIPO_REFEICAO, 0));
+
+            int tipoNutriente = intent.getIntExtra(EXTRA_TIPO_NUTRIENTE, 0);
+            switch (TipoNutriente.values()[tipoNutriente]) {
+                case Proteina:
+                    radioGroupNutriente.check(R.id.radioButtonProteina);
+                    break;
+                case Gordura:
+                    radioGroupNutriente.check(R.id.radioButtonGordura);
+                    break;
+                case Carboidrato:
+                    radioGroupNutriente.check(R.id.radioButtonCarboidrato);
+                    break;
+            }
+        }
     }
 
-    public void limparCampos(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_alimento, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // Botão Up: cancela e volta para listagem
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+            return true;
+        } else if (id == R.id.menuItemSalvar) {
+            salvarValores();
+            return true;
+        } else if (id == R.id.menuItemLimpar) {
+            limparCampos();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void limparCampos() {
         editTextCalorias.setText(null);
         editTextNomeAlimento.setText(null);
         editTextQuantidade.setText(null);
@@ -51,7 +112,7 @@ public class AlimentoActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.as_entradas_foram_apagadas, Toast.LENGTH_LONG).show();
     }
 
-    public void salvarValores(View view) {
+    private void salvarValores() {
         // Validar nome
         String nomeAlimento = editTextNomeAlimento.getText().toString();
         if (nomeAlimento.trim().isEmpty()) {
@@ -86,7 +147,6 @@ public class AlimentoActivity extends AppCompatActivity {
             return;
         }
 
-        // Determinar índice do nutriente (ordinal do enum)
         int tipoNutriente;
         if (radioButtonID == R.id.radioButtonProteina) {
             tipoNutriente = TipoNutriente.Proteina.ordinal();
@@ -96,10 +156,9 @@ public class AlimentoActivity extends AppCompatActivity {
             tipoNutriente = TipoNutriente.Carboidrato.ordinal();
         }
 
-        boolean caseira = checkBoxCaseira.isChecked();
-        int tipoRefeicao = spinnerTipoRefeicao.getSelectedItemPosition();
+        boolean caseira      = checkBoxCaseira.isChecked();
+        int tipoRefeicao     = spinnerTipoRefeicao.getSelectedItemPosition();
 
-        // Devolver resultado para AlimentosActivity
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_NOME, nomeAlimento);
         resultIntent.putExtra(EXTRA_QUANTIDADE, Integer.parseInt(quantidadeStr));
@@ -107,6 +166,7 @@ public class AlimentoActivity extends AppCompatActivity {
         resultIntent.putExtra(EXTRA_CASEIRA, caseira);
         resultIntent.putExtra(EXTRA_TIPO_NUTRIENTE, tipoNutriente);
         resultIntent.putExtra(EXTRA_TIPO_REFEICAO, tipoRefeicao);
+        resultIntent.putExtra(EXTRA_POSICAO, posicaoEdicao);
 
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
