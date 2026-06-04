@@ -8,6 +8,12 @@
         <item>@string/outro</item>
     </string-array>
 
+    <string-array name="opcoesOrdenacao">
+        <item>@string/ordenar_por_nome</item>
+        <item>@string/ordenar_por_calorias</item>
+        <item>@string/ordenar_por_quantidade</item>
+    </string-array>
+
     <string-array name="alimentos_nome">
         <item>Frango</item>
         <item>Arroz</item>
@@ -20,6 +26,7 @@
         <item>Queijo</item>
         <item>Presunto</item>
     </string-array>
+
     <integer-array name="alimentos_quantidade">
         <item>100</item>
         <item>150</item>
@@ -32,6 +39,7 @@
         <item>400</item>
         <item>20</item>
     </integer-array>
+
     <integer-array name="alimentos_calorias">
         <item>100</item>
         <item>200</item>
@@ -44,40 +52,43 @@
         <item>900</item>
         <item>1000</item>
     </integer-array>
-<integer-array name="alimentos_caseira">
-    <item>1</item>
-    <item>0</item>
-    <item>1</item>
-    <item>0</item>
-    <item>1</item>
-    <item>1</item>
-    <item>0</item>
-    <item>0</item>
-    <item>0</item>
-    <item>1</item>
-</integer-array>
-<integer-array name="alimentos_tipos_refeicao">
-    <item>0</item>
-    <item>1</item>
-    <item>2</item>
-    <item>3</item>
-    <item>4</item>
-    <item>0</item>
-    <item>1</item>
-    <item>2</item>
-    <item>3</item>
-    <item>4</item>
-</integer-array>
-<integer-array name="alimentos_tipos_nutrientes">
-    <item>0</item>
-    <item>1</item>
-    <item>2</item>
-    <item>0</item>
-    <item>1</item>
-    <item>2</item>
-    <item>0</item>
-    <item>1</item>
-    <item>2</item>
-    <item>0</item>
-</integer-array>
+
+    <integer-array name="alimentos_caseira">
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+    </integer-array>
+
+    <integer-array name="alimentos_tipos_refeicao">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </integer-array>
+
+    <integer-array name="alimentos_tipos_nutrientes">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>0</item>
+    </integer-array>
 </resources>

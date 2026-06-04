@@ -2,6 +2,7 @@ package br.edu.utfpr.britop.controledieta;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -20,6 +21,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AlimentosActivity extends AppCompatActivity {
@@ -72,13 +75,13 @@ public class AlimentosActivity extends AppCompatActivity {
                                 listaAlimentos.add(alimento);
                             }
 
+                            ordenarLista();
                             alimentoAdapter.notifyDataSetChanged();
                         }
                     }
                 }
         );
 
-        // Clique simples
         listViewAlimentos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,6 +147,45 @@ public class AlimentosActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ordenarLista();
+        alimentoAdapter.notifyDataSetChanged();
+    }
+
+    private void ordenarLista() {
+        SharedPreferences prefs = getSharedPreferences(ConfiguracaoActivity.PREFS_NAME, MODE_PRIVATE);
+        int ordenacao = prefs.getInt(ConfiguracaoActivity.PREF_ORDENACAO, ConfiguracaoActivity.ORDENAR_POR_NOME);
+
+        switch (ordenacao) {
+            case ConfiguracaoActivity.ORDENAR_POR_NOME:
+                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
+                    @Override
+                    public int compare(Alimento a, Alimento b) {
+                        return a.getNome().compareToIgnoreCase(b.getNome());
+                    }
+                });
+                break;
+            case ConfiguracaoActivity.ORDENAR_POR_CALORIAS:
+                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
+                    @Override
+                    public int compare(Alimento a, Alimento b) {
+                        return Integer.compare(a.getCalorias(), b.getCalorias());
+                    }
+                });
+                break;
+            case ConfiguracaoActivity.ORDENAR_POR_QUANTIDADE:
+                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
+                    @Override
+                    public int compare(Alimento a, Alimento b) {
+                        return Integer.compare(a.getQuantidade(), b.getQuantidade());
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_alimentos, menu);
@@ -159,6 +201,10 @@ public class AlimentosActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.menuItemSobre) {
             Intent intent = new Intent(this, AutoriaActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.menuItemConfiguracoes) {
+            Intent intent = new Intent(this, ConfiguracaoActivity.class);
             startActivity(intent);
             return true;
         }

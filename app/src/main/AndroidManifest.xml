@@ -12,29 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.ControleDieta"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ConfiguracaoActivity"
+            android:exported="false"
+            android:parentActivityName=".AlimentosActivity"
+            android:theme="@style/Theme.ControleDieta.WithActionBar" />
         <activity
             android:name=".AlimentosActivity"
             android:exported="true"
             android:theme="@style/Theme.ControleDieta.WithActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AlimentoActivity"
             android:exported="false"
-            android:theme="@style/Theme.ControleDieta.WithActionBar"
-            android:parentActivityName=".AlimentosActivity" />
-
+            android:parentActivityName=".AlimentosActivity"
+            android:theme="@style/Theme.ControleDieta.WithActionBar" />
         <activity
             android:name=".AutoriaActivity"
             android:exported="false"
-            android:theme="@style/Theme.ControleDieta.WithActionBar"
-            android:parentActivityName=".AlimentosActivity" />
-
+            android:parentActivityName=".AlimentosActivity"
+            android:theme="@style/Theme.ControleDieta.WithActionBar" />
     </application>
 
 </manifest>

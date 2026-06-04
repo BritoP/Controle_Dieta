@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Controle Dieta</string>
+
+    <!-- Cadastro -->
+    <string name="alimento">Alimento: </string>
+    <string name="quantidade">Quantidade (em gramas): </string>
+    <string name="calorias">Calorias (por 100g): </string>
+    <string name="salvar">Salvar</string>
+    <string name="limpar">Limpar</string>
+    <string name="as_entradas_foram_apagadas">As entradas foram apagadas</string>
+    <string name="faltou_entrar_com_o_nome_do_alimento">Faltou entrar com o nome do Alimento</string>
+    <string name="faltou_entrar_com_as_calorias">Faltou entrar com as calorias</string>
+    <string name="faltou_entrar_com_a_quantidade">Faltou entrar com a quantidade</string>
+    <string name="receita_caseira">Receita caseira</string>
+    <string name="receita_nao_caseira">Receita não é caseira</string>
+    <string name="proteina">Proteína</string>
+    <string name="gordura">Gordura</string>
+    <string name="carboidrato">Carboidrato</string>
+    <string name="faltou_preencher_o_tipo_do_nutriente">Faltou preencher o tipo do Nutriente</string>
+    <string name="tipo_refeicao">Tipo da Refeição: </string>
+    <string name="cafe_da_manha">Café da manhã</string>
+    <string name="almoco">Almoço</string>
+    <string name="cafe_da_tarde">Café da tarde</string>
+    <string name="janta">Janta</string>
+    <string name="outro">Outro</string>
+    <string name="o_spinner_tipo_nao_possui_valor">O spinner tipo não possui valor</string>
+    <string name="tipo_nutriente">Tipo de Nutriente: </string>
+    <string name="alimento_de_nome">Alimento de Nome \"</string>
+    <string name="foi_clicado">\" foi clicado!</string>
+
+    <!-- Listagem -->
+    <string name="adicionar">Adicionar</string>
+    <string name="sobre">Sobre</string>
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+    <string name="configuracoes">Configurações</string>
+
+    <!-- Autoria -->
+    <string name="logo_utfpr">Logo da UTFPR</string>
+    <string name="nome_utfpr">Universidade Tecnológica Federal do Paraná</string>
+    <string name="label_nome_aluno">Aluno</string>
+    <string name="nome_aluno">Pedro Otavio de Brito</string>
+    <string name="rotulo_curso">Curso</string>
+    <string name="curso_aluno">Engenharia de Computação — UTFPR Cornélio Procópio</string>
+    <string name="label_email">E-mail</string>
+    <string name="email_aluno">britop.dev@gmail.com</string>
+    <string name="label_descricao_app">Sobre o aplicativo</string>
+    <string name="descricao_app">O Controle Dieta é um aplicativo para registro e acompanhamento de alimentos consumidos ao longo do dia. Permite cadastrar alimentos com informações nutricionais como calorias, tipo de nutriente e tipo de refeição, facilitando o controle da alimentação diária.</string>
+
+    <!-- Configurações -->
+    <string name="titulo_configuracoes">Configurações</string>
+    <string name="label_ordenacao">Ordenar lista por</string>
+    <string name="ordenar_por_nome">Nome (A-Z)</string>
+    <string name="ordenar_por_calorias">Calorias (menor primeiro)</string>
+    <string name="ordenar_por_quantidade">Quantidade (menor primeiro)</string>
+    <string name="configuracoes_salvas">Configurações salvas</string>
+
+    <!-- Arrays -->
+    <string-array name="tipoRefeicao">
+        <item>Café da manhã</item>
+        <item>Almoço</item>
+        <item>Café da tarde</item>
+        <item>Janta</item>
+        <item>Outro</item>
+    </string-array>
+
+    <string-array name="opcoesOrdenacao">
+        <item>Nome (A-Z)</item>
+        <item>Calorias (menor primeiro)</item>
+        <item>Quantidade (menor primeiro)</item>
+    </string-array>
+
+</resources>
