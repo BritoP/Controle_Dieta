@@ -1,77 +1,60 @@
 package br.edu.utfpr.britop.controledieta;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(
+        tableName = "alimento",
+        foreignKeys = @ForeignKey(
+                entity = Refeicao.class,
+                parentColumns = "id",
+                childColumns = "refeicaoId",
+                onDelete = ForeignKey.CASCADE
+        ),
+        indices = {@Index("refeicaoId")}
+)
 public class Alimento {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     private String nome;
     private int quantidade;
     private int calorias;
-    boolean caseira;
+    private boolean caseira;
     private TipoNutriente tipoNutriente;
-    private int tipoRefeicao;
+    private int refeicaoId;
 
-    public Alimento(String nome,int quantidade,int calorias,boolean caseira,  TipoNutriente tipoNutriente, int tipoRefeicao  ) {
-        this.nome          = nome;
-        this.quantidade    = quantidade;
-        this.calorias      = calorias;
-        this.caseira       = caseira;
-        this.tipoNutriente = tipoNutriente;
-        this.tipoRefeicao  = tipoRefeicao;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
+    public Alimento(String nome, int quantidade, int calorias, boolean caseira,
+                    TipoNutriente tipoNutriente, int refeicaoId) {
         this.nome = nome;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public int getCalorias() {
-        return calorias;
-    }
-
-    public void setCalorias(int calorias) {
         this.calorias = calorias;
-    }
-
-    public boolean isCaseira() {
-        return caseira;
-    }
-
-    public void setCaseira(boolean caseira) {
         this.caseira = caseira;
-    }
-
-    public TipoNutriente getTipoNutriente() {
-        return tipoNutriente;
-    }
-
-    public void setTipoNutriente(TipoNutriente tipoNutriente) {
         this.tipoNutriente = tipoNutriente;
+        this.refeicaoId = refeicaoId;
     }
 
-    public int getTipoRefeicao() {
-        return tipoRefeicao;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setTipoRefeicao(int tipoRefeicao) {
-        this.tipoRefeicao = tipoRefeicao;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    @Override
-    public String toString() {
-        return  nome + "\n" +
-                quantidade + "\n"+
-                calorias + "\n" +
-                caseira + "\n" +
-                tipoNutriente + "\n" +
-                tipoRefeicao;
-    }
+    public int getQuantidade() { return quantidade; }
+    public void setQuantidade(int quantidade) { this.quantidade = quantidade; }
+
+    public int getCalorias() { return calorias; }
+    public void setCalorias(int calorias) { this.calorias = calorias; }
+
+    public boolean isCaseira() { return caseira; }
+    public void setCaseira(boolean caseira) { this.caseira = caseira; }
+
+    public TipoNutriente getTipoNutriente() { return tipoNutriente; }
+    public void setTipoNutriente(TipoNutriente tipoNutriente) { this.tipoNutriente = tipoNutriente; }
+
+    public int getRefeicaoId() { return refeicaoId; }
+    public void setRefeicaoId(int refeicaoId) { this.refeicaoId = refeicaoId; }
 }

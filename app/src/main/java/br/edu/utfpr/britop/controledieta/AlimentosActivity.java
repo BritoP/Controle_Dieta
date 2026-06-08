@@ -2,7 +2,6 @@ package br.edu.utfpr.britop.controledieta;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -15,22 +14,24 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class AlimentosActivity extends AppCompatActivity {
 
+    public static final String EXTRA_REFEICAO_ID = "refeicaoId";
+
     private ListView listViewAlimentos;
     private List<Alimento> listaAlimentos;
     private AlimentoAdapter alimentoAdapter;
+    private AppDatabase db;
+    private int refeicaoId;
     private int posicaoSelecionada = -1;
+
     private ActivityResultLauncher<Intent> cadastroLauncher;
 
     @Override
@@ -38,58 +39,30 @@ public class AlimentosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alimentos);
 
-        listViewAlimentos = findViewById(R.id.listViewAlimentos);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.titulo_alimentos);
+        }
 
-        listaAlimentos = new ArrayList<>();
-        alimentoAdapter = new AlimentoAdapter(this, listaAlimentos);
-        listViewAlimentos.setAdapter(alimentoAdapter);
+        db = AppDatabase.getInstancia(this);
+        refeicaoId = getIntent().getIntExtra(EXTRA_REFEICAO_ID, -1);
+
+        listViewAlimentos = findViewById(R.id.listViewAlimentos);
 
         cadastroLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            Intent data = result.getData();
-
-                            String nome       = data.getStringExtra(AlimentoActivity.EXTRA_NOME);
-                            int quantidade    = data.getIntExtra(AlimentoActivity.EXTRA_QUANTIDADE, 0);
-                            int calorias      = data.getIntExtra(AlimentoActivity.EXTRA_CALORIAS, 0);
-                            boolean caseira   = data.getBooleanExtra(AlimentoActivity.EXTRA_CASEIRA, false);
-                            int tipoNutriente = data.getIntExtra(AlimentoActivity.EXTRA_TIPO_NUTRIENTE, 0);
-                            int tipoRefeicao  = data.getIntExtra(AlimentoActivity.EXTRA_TIPO_REFEICAO, 0);
-                            int posicao       = data.getIntExtra(AlimentoActivity.EXTRA_POSICAO, -1);
-
-                            TipoNutriente nutriente = TipoNutriente.values()[tipoNutriente];
-
-                            if (posicao >= 0) {
-                                Alimento alimento = listaAlimentos.get(posicao);
-                                alimento.setNome(nome);
-                                alimento.setQuantidade(quantidade);
-                                alimento.setCalorias(calorias);
-                                alimento.setCaseira(caseira);
-                                alimento.setTipoNutriente(nutriente);
-                                alimento.setTipoRefeicao(tipoRefeicao);
-                            } else {
-                                Alimento alimento = new Alimento(nome, quantidade, calorias, caseira, nutriente, tipoRefeicao);
-                                listaAlimentos.add(alimento);
-                            }
-
-                            ordenarLista();
-                            alimentoAdapter.notifyDataSetChanged();
-                        }
+                (ActivityResult result) -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        carregarAlimentos();
                     }
                 }
         );
 
-        listViewAlimentos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Alimento alimento = (Alimento) listViewAlimentos.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
-                        getString(R.string.alimento_de_nome) + alimento.getNome() + getString(R.string.foi_clicado),
-                        Toast.LENGTH_LONG).show();
-            }
+        listViewAlimentos.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            Alimento alimento = listaAlimentos.get(position);
+            Toast.makeText(this,
+                    getString(R.string.alimento_de_nome) + alimento.getNome() + getString(R.string.foi_clicado),
+                    Toast.LENGTH_SHORT).show();
         });
 
         listViewAlimentos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -102,110 +75,89 @@ public class AlimentosActivity extends AppCompatActivity {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.menu_contextual, menu);
+                mode.getMenuInflater().inflate(R.menu.menu_contextual, menu);
                 return true;
             }
 
             @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) { return false; }
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                if (posicaoSelecionada < 0) return false;
                 int id = item.getItemId();
                 if (id == R.id.menuItemEditar) {
-                    if (posicaoSelecionada < 0) return false;
                     Alimento alimento = listaAlimentos.get(posicaoSelecionada);
                     Intent intent = new Intent(AlimentosActivity.this, AlimentoActivity.class);
-                    intent.putExtra(AlimentoActivity.EXTRA_NOME, alimento.getNome());
-                    intent.putExtra(AlimentoActivity.EXTRA_QUANTIDADE, alimento.getQuantidade());
-                    intent.putExtra(AlimentoActivity.EXTRA_CALORIAS, alimento.getCalorias());
-                    intent.putExtra(AlimentoActivity.EXTRA_CASEIRA, alimento.isCaseira());
-                    intent.putExtra(AlimentoActivity.EXTRA_TIPO_NUTRIENTE, alimento.getTipoNutriente().ordinal());
-                    intent.putExtra(AlimentoActivity.EXTRA_TIPO_REFEICAO, alimento.getTipoRefeicao());
-                    intent.putExtra(AlimentoActivity.EXTRA_POSICAO, posicaoSelecionada);
+                    intent.putExtra(AlimentoActivity.EXTRA_ALIMENTO_ID, alimento.getId());
+                    intent.putExtra(AlimentoActivity.EXTRA_REFEICAO_ID, refeicaoId);
                     cadastroLauncher.launch(intent);
                     mode.finish();
                     return true;
                 } else if (id == R.id.menuItemExcluir) {
-                    if (posicaoSelecionada < 0) return false;
-                    listaAlimentos.remove(posicaoSelecionada);
-                    alimentoAdapter.notifyDataSetChanged();
-                    mode.finish();
+                    Alimento alimento = listaAlimentos.get(posicaoSelecionada);
+                    confirmarExclusaoAlimento(alimento, mode);
                     return true;
                 }
                 return false;
             }
 
             @Override
-            public void onDestroyActionMode(ActionMode mode) {
-                posicaoSelecionada = -1;
-            }
+            public void onDestroyActionMode(ActionMode mode) { posicaoSelecionada = -1; }
         });
+
+        carregarAlimentos();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ordenarLista();
-        alimentoAdapter.notifyDataSetChanged();
+        carregarAlimentos();
     }
 
-    private void ordenarLista() {
-        SharedPreferences prefs = getSharedPreferences(ConfiguracaoActivity.PREFS_NAME, MODE_PRIVATE);
-        int ordenacao = prefs.getInt(ConfiguracaoActivity.PREF_ORDENACAO, ConfiguracaoActivity.ORDENAR_POR_NOME);
-
-        switch (ordenacao) {
-            case ConfiguracaoActivity.ORDENAR_POR_NOME:
-                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
-                    @Override
-                    public int compare(Alimento a, Alimento b) {
-                        return a.getNome().compareToIgnoreCase(b.getNome());
-                    }
-                });
-                break;
-            case ConfiguracaoActivity.ORDENAR_POR_CALORIAS:
-                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
-                    @Override
-                    public int compare(Alimento a, Alimento b) {
-                        return Integer.compare(a.getCalorias(), b.getCalorias());
-                    }
-                });
-                break;
-            case ConfiguracaoActivity.ORDENAR_POR_QUANTIDADE:
-                Collections.sort(listaAlimentos, new Comparator<Alimento>() {
-                    @Override
-                    public int compare(Alimento a, Alimento b) {
-                        return Integer.compare(a.getQuantidade(), b.getQuantidade());
-                    }
-                });
-                break;
+    private void carregarAlimentos() {
+        listaAlimentos = db.alimentoDao().listarPorRefeicao(refeicaoId);
+        if (alimentoAdapter == null) {
+            alimentoAdapter = new AlimentoAdapter(this, listaAlimentos);
+            listViewAlimentos.setAdapter(alimentoAdapter);
+        } else {
+            alimentoAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void confirmarExclusaoAlimento(Alimento alimento, ActionMode mode) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.confirmar_exclusao)
+                .setMessage(R.string.mensagem_exclusao_alimento)
+                .setPositiveButton(R.string.excluir, (dialog, which) -> {
+                    db.alimentoDao().deletar(alimento);
+                    carregarAlimentos();
+                    mode.finish();
+                    Toast.makeText(this, R.string.alimento_excluido, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.cancelar, (dialog, which) -> {
+                    mode.finish();
+                    dialog.dismiss();
+                })
+                .show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_alimentos, menu);
+        getMenuInflater().inflate(R.menu.menu_alimentos, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menuItemAdicionar) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.menuItemAdicionar) {
             Intent intent = new Intent(this, AlimentoActivity.class);
+            intent.putExtra(AlimentoActivity.EXTRA_REFEICAO_ID, refeicaoId);
             cadastroLauncher.launch(intent);
-            return true;
-        } else if (id == R.id.menuItemSobre) {
-            Intent intent = new Intent(this, AutoriaActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.menuItemConfiguracoes) {
-            Intent intent = new Intent(this, ConfiguracaoActivity.class);
-            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

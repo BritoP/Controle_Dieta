@@ -3,19 +3,19 @@ package br.edu.utfpr.britop.controledieta;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ConfiguracaoActivity extends AppCompatActivity {
 
-    public static final String PREFS_NAME        = "ControleDietaPrefs";
-    public static final String PREF_ORDENACAO    = "ordenacao";
-    public static final int    ORDENAR_POR_NOME      = 0;
-    public static final int    ORDENAR_POR_CALORIAS  = 1;
-    public static final int    ORDENAR_POR_QUANTIDADE = 2;
+    public static final String PREFS_NAME           = "ControleDietaPrefs";
+    public static final String PREF_ORDENACAO        = "ordenacao";
+    public static final int    ORDENAR_POR_DATA_DESC = 0;
+    public static final int    ORDENAR_POR_DATA_ASC  = 1;
+    public static final int    ORDENAR_POR_TIPO       = 2;
 
     private Spinner spinnerOrdenacao;
 
@@ -31,20 +31,14 @@ public class ConfiguracaoActivity extends AppCompatActivity {
 
         spinnerOrdenacao = findViewById(R.id.spinnerOrdenacao);
 
-        // Carregar preferência salva
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        int ordenacaoSalva = prefs.getInt(PREF_ORDENACAO, ORDENAR_POR_NOME);
-        spinnerOrdenacao.setSelection(ordenacaoSalva);
+        spinnerOrdenacao.setSelection(prefs.getInt(PREF_ORDENACAO, ORDENAR_POR_DATA_DESC));
     }
 
     public void salvarConfiguracoes(View view) {
-        int ordenacaoEscolhida = spinnerOrdenacao.getSelectedItemPosition();
-
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(PREF_ORDENACAO, ordenacaoEscolhida);
+        SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putInt(PREF_ORDENACAO, spinnerOrdenacao.getSelectedItemPosition());
         editor.apply();
-
         Toast.makeText(this, R.string.configuracoes_salvas, Toast.LENGTH_SHORT).show();
         finish();
     }
